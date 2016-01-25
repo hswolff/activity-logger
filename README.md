@@ -51,15 +51,17 @@ activity.setEndFormatter(function(activity) {
 		' - COMPLETED (' + (activity.timestamps[1] - activity.timestamps[0]) + 'ms)';
 });
 
-activity.end(activityId);
-// logs -> '[2] Booting up @ 9:51:26 AM - COMPLETED (23ms)'
+setTimeout(function() {
+	activity.end(activityId);
+	// logs -> '[2] Booting up @ 9:51:26 AM - COMPLETED (23ms)'
+}, 23);
 ```
 
 And you can change where the output is sent!
 
 ```js
 activity.setOutputHandlers(function(message) {
-	fs.writeFileSync('./log.txt', message, 'utf8');
+	fs.appendFileSync('./log.txt', message, 'utf8');
 });
 
 // Now every message is appended to our log file.
