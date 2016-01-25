@@ -5,9 +5,7 @@
 
 Track how long certain activities take in your application.
 
-By default all activities are given to `console.log`.
-
-You can modify where activity messages should be sent by modifying the `outputHandlers` array.
+Think of it is a more powerful and expressive `console.time`, one that lets you customize not only what is logged out but also where it goes. You can pipe messages to `console.log`, `process.stdout`, or write to the file system however you like!
 
 Super inspired by [react-native's Activity module](https://github.com/facebook/react-native/blob/master/packager/react-packager/src/Activity/index.js).
 
