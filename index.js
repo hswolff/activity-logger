@@ -12,7 +12,7 @@ function writeActivity(template, activity) {
     throw new Error('No output handlers defined.');
   }
 
-  outputHandlers.forEach(handler => {
+  outputHandlers.forEach(function(handler) {
     handler(template(activity));
   });
 }
