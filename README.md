@@ -20,17 +20,50 @@ $ npm install --save activity-logger
 
 ## Usage
 
+Basic usage.
+
 ```js
 const activity = require('activity-logger');
 
 var ovenActivity = activity.start('Heating up the oven.');
 // logs -> 'Heating up the oven';
+
 setTimeout(function() {
 	activity.end(ovenActivity);
 	// logs -> 'Heating up the oven (1234ms)'
 }, 1234);
 ```
 
+You can customize what the output looks like.
+
+```js
+activity.setStartFormatter(function(activity) {
+	return '[' + activity.id + '] ' + activity.message + ' @ ' +
+		new Date(activity.timestamps[0]).toLocaleTimeString();
+});
+
+var activityId = activity.start('Booting up');
+// logs -> '[2] Booting up @ 9:51:26 AM'
+
+activity.setEndFormatter(function(activity) {
+	return '[' + activity.id + '] ' + activity.message + ' @ ' +
+		new Date(activity.timestamps[0]).toLocaleTimeString() +
+		' - COMPLETED (' + (activity.timestamps[1] - activity.timestamps[0]) + 'ms)';
+});
+
+activity.end(activityId);
+// logs -> '[2] Booting up @ 9:51:26 AM - COMPLETED (23ms)'
+```
+
+And you can change where the output is sent!
+
+```js
+activity.setOutputHandlers(function(message) {
+	fs.writeFileSync('./log.txt', message, 'utf8');
+});
+
+// Now every message is appended to our log file.
+```
 
 ## API
 
