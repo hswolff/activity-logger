@@ -1,4 +1,4 @@
-# activity-logger [![Build Status](https://travis-ci.org/hswolff/activity-logger.svg?branch=master)](https://travis-ci.org/hswolff/activity-logger) [![ghit.me](https://ghit.me/badge.svg?repo=hswolff/activity-logger)](https://ghit.me/repo/hswolff/activity-logger)
+# activity-logger [![npm version](https://badge.fury.io/js/activity-logger.svg)](http://badge.fury.io/js/activity-logger) [![Build Status](https://travis-ci.org/hswolff/activity-logger.svg?branch=master)](https://travis-ci.org/hswolff/activity-logger) [![ghit.me](https://ghit.me/badge.svg?repo=hswolff/activity-logger)](https://ghit.me/repo/hswolff/activity-logger)
 
 
 > Log activities, showing the time it takes to complete them.
