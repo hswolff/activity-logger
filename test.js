@@ -1,6 +1,6 @@
-const assert = require('assert');
-const sinon = require('sinon');
-const activity = require('./index.js');
+var assert = require('assert');
+var sinon = require('sinon');
+var activity = require('./index.js');
 
 describe('activity', function() {
   before(function() {
@@ -107,14 +107,14 @@ describe('activity', function() {
       var handlers = [1, 2, 3];
       var newHandlers = activity.setOutputHandlers(handlers);
       assert.equal(handlers.length, newHandlers.length);
-      assert.deepStrictEqual(handlers, newHandlers);
+      assert.deepEqual(handlers, newHandlers);
     });
 
     it('accepts multiple arguments', function() {
       var handlers = [1, 2, 3];
       var newHandlers = activity.setOutputHandlers(1, 2, 3);
       assert.equal(handlers.length, newHandlers.length);
-      assert.deepStrictEqual(handlers, newHandlers);
+      assert.deepEqual(handlers, newHandlers);
     });
   });
 
