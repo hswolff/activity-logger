@@ -28,8 +28,8 @@ function startActivity(activityMessage) {
     throw new Error('activity.start() requires an activity name.');
   }
 
-  const activityId = uuid++;
-  const activity = {
+  var activityId = uuid++;
+  var activity = {
     id: activityId,
     message: activityMessage,
     timestamps: [startTime]
