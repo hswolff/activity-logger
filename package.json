@@ -1,0 +1,34 @@
+{
+  "name": "activity-logger",
+  "version": "1.0.0",
+  "description": "track time to complete activities to any output",
+  "license": "MIT",
+  "repository": "hswolff/activity-logger",
+  "author": {
+    "name": "Harry Wolff",
+    "email": "hello@hswolff.com",
+    "url": "hswolff.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "log",
+    "logger",
+    "activity",
+    "tracker",
+    "time",
+    "track"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^2.3.4",
+    "sinon": "^1.17.2"
+  }
+}
