@@ -8,6 +8,8 @@ By default all activities are given to `console.log`.
 
 You can modify where activity messages should be sent by modifying the `outputHandlers` array.
 
+Super inspired by [react-native's Activity module](https://github.com/facebook/react-native/blob/master/packager/react-packager/src/Activity/index.js).
+
 ## Install
 
 ```
