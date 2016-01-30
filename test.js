@@ -64,6 +64,21 @@ describe('activity', function() {
     });
   });
 
+  describe('destroy', function() {
+    it('deletes activity and returns it', function() {
+      var testId = activity.create('Zuhl.');
+      var testActivity = getActivity(testId);
+
+      assert(testActivity.timestamps.length === 0);
+
+      var destroyedActivity = activity.destroy(testId);
+
+      assert(testActivity === destroyedActivity);
+
+      assert(testActivity.timestamps.length === 0);
+    });
+  });
+
   describe('end', function() {
     it('throws if id doesn\'t exist', function() {
       assert.throws(function() {

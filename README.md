@@ -114,6 +114,18 @@ Type: `number`
 The id of the activity.
 
 
+### activity.destroy(activityId)
+
+Returns `Activity` object after removing it from internal cache of activities.
+Does not modify Activity object at all.
+
+#### activityId
+
+Type: `number`
+
+The id of the activity.
+
+
 ### activity.disable()
 
 Disable output.

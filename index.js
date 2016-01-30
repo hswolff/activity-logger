@@ -124,6 +124,18 @@ function markActivity(activityId) {
 exports.mark = markActivity;
 
 /**
+ * Removes Activity from our store of activities.
+ * @param {number} activityId Activity ID.
+ * @return {Activity} Destroyed Activity object.
+ */
+function destroyActivity(activityId) {
+  var activity = getActivity(activityId);
+  delete activities[activityId];
+  return activity;
+}
+exports.destroy = destroyActivity;
+
+/**
  * Create and start a new activity.
  * @param {string} activityMessage Message to use for activity.
  * @return {number} Activity id.
@@ -146,13 +158,11 @@ exports.start = startActivity;
  * @return {Activity} Return the ended activity.
  */
 function endActivity(activityId) {
-  var activity = getActivity(activityId);
-
   markActivity(activityId);
 
-  writeActivity(activityEvents.end, activity);
+  var activity = destroyActivity(activityId)
 
-  delete activities[activityId];
+  writeActivity(activityEvents.end, activity);
 
   return activity;
 }
