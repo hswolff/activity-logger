@@ -7,6 +7,37 @@ exports.addOutputHandler = outputHandlers.add;
 
 var uuid = 1;
 var activities = Object.create(null);
+var enabled = true;
+
+// Disable writing to outputHandlers.
+exports.disable = function disable() {
+  enabled = false;
+};
+
+// Enable writing to outputHandlers.
+exports.enable = function enable() {
+  enabled = true;
+};
+
+var activityEvents = {
+  start: function(activity) {
+    return activity.message;
+  },
+
+  end: function(activity) {
+    var firstTime = activity.timestamps[0];
+    var lastTime = activity.timestamps[activity.timestamps.length - 1];
+    return activity.message + ' (' + (lastTime - firstTime) + 'ms)';
+  }
+};
+
+exports.setStartFormatter = function setStartFormatter(formatter) {
+  activityEvents['start'] = formatter;
+};
+
+exports.setEndFormatter = function setEndFormatter(formatter) {
+  activityEvents['end'] = formatter;
+};
 
 /**
  * The Activity object.
@@ -112,35 +143,3 @@ function endActivity(activityId) {
   delete activities[activityId];
 }
 exports.end = endActivity;
-
-var enabled = true;
-
-// Disable writing to outputHandlers.
-exports.disable = function disable() {
-  enabled = false;
-};
-
-// Enable writing to outputHandlers.
-exports.enable = function enable() {
-  enabled = true;
-};
-
-var activityEvents = {
-  start: function(activity) {
-    return activity.message;
-  },
-
-  end: function(activity) {
-    var firstTime = activity.timestamps[0];
-    var lastTime = activity.timestamps[activity.timestamps.length - 1];
-    return activity.message + ' (' + (lastTime - firstTime) + 'ms)';
-  }
-};
-
-exports.setStartFormatter = function setStartFormatter(formatter) {
-  activityEvents['start'] = formatter;
-};
-
-exports.setEndFormatter = function setEndFormatter(formatter) {
-  activityEvents['end'] = formatter;
-};
