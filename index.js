@@ -94,7 +94,7 @@ function createActivity(activityMessage) {
   if (activityMessage === undefined ||
       activityMessage === undefined ||
       typeof activityMessage !== 'string') {
-    throw new Error('activity.start() requires an activity name.');
+    throw new Error('Creating a new activity requires an activity message.');
   }
 
   var activityId = uuid++;
