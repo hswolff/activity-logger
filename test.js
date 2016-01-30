@@ -1,34 +1,52 @@
+var rewire = require('rewire');
 var assert = require('assert');
 var sinon = require('sinon');
-var activity = require('./index.js');
+var activity = rewire('./index.js');
 
 describe('activity', function() {
+  var getActivity = activity.__get__('getActivity');
+  var writeActivity = activity.__get__('writeActivity');
+
   before(function() {
     activity.setOutputHandlers(sinon.spy());
   });
 
-  describe('start', function() {
+  describe('create', function() {
     it('throws if given wrong input', function() {
       assert.throws(function() {
-        activity.start();
+        activity.create();
       });
       assert.throws(function() {
-        activity.start(2828);
+        activity.create(2828);
       });
       assert.throws(function() {
-        activity.start({});
+        activity.create({});
       });
     });
 
     it('returns a uuid', function() {
-      var ovenActivity = activity.start('Warming up the oven.');
+      var ovenActivity = activity.create('Warming up the oven.');
       assert(typeof ovenActivity === 'number');
     });
 
     it('returns an unique uuid', function() {
-      var ovenActivity = activity.start('Warming up the oven.');
-      var waterActivity = activity.start('Boiling the water.');
+      var ovenActivity = activity.create('Warming up the oven.');
+      var waterActivity = activity.create('Boiling the water.');
       assert(ovenActivity !== waterActivity);
+    });
+
+    it('creates activity without any timestamps', function() {
+      var timelessId = activity.create('Timeless.');
+      var timelessActivity = getActivity(timelessId);
+      assert(timelessActivity.timestamps.length === 0);
+    });
+  });
+
+  describe('start', function() {
+    it('creates activity with one timestmap', function() {
+      var testId = activity.start('Marathon, go!');
+      var testActivity = getActivity(testId);
+      assert(testActivity.timestamps.length === 1);
     });
   });
 
@@ -66,7 +84,7 @@ describe('activity', function() {
       var template = sinon.spy(function() {
         return templateVal;
       });
-      activity._write(template, writeData);
+      writeActivity(template, writeData);
 
       assert.equal(template.callCount, 2);
       assert.equal(handler.callCount, 2);

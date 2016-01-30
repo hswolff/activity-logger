@@ -3,6 +3,35 @@
 var uuid = 1;
 var activities = Object.create(null);
 
+/**
+ * The Activity object.
+ * @typedef {{
+ *   id: number,
+ *   message: string,
+ *   timestamps: Array.<number>
+ * }} Activity
+ */
+
+/**
+ * Get an Activity object if it exists. Throws if it doesn't exist.
+ * @param {number} activityId Activity id.
+ * @return {Activity}
+ */
+function getActivity(activityId) {
+  var activity = activities[activityId];
+
+  if (activity === undefined) {
+    throw new Error('activity with id "' + activityId + '" not found.');
+  }
+
+  return activity;
+}
+
+/**
+ * Outputs the activity message to all defined handlers.
+ * @param {Function} template Template to use to format the message.
+ * @param {Activity} activity Activity object.
+ */
 function writeActivity(template, activity) {
   if (!enabled) {
     return;
@@ -16,12 +45,14 @@ function writeActivity(template, activity) {
     handler(template(activity));
   });
 }
-// Exported for testing purposes. Do not use.
-exports._write = writeActivity;
 
-function startActivity(activityMessage) {
-  var startTime = Date.now();
-
+/**
+ * Create a new Activity object with its own unique ID. Does not start the
+ * activity.
+ * @param {string} activityMessage The activity message to use.
+ * @return {number} Activity ID.
+ */
+function createActivity(activityMessage) {
   if (activityMessage === undefined ||
       activityMessage === undefined ||
       typeof activityMessage !== 'string') {
@@ -32,10 +63,26 @@ function startActivity(activityMessage) {
   var activity = {
     id: activityId,
     message: activityMessage,
-    timestamps: [startTime]
+    timestamps: []
   };
 
   activities[activityId] = activity;
+
+  return activityId;
+}
+exports.create = createActivity;
+
+/**
+ * Create and start a new activity.
+ * @param {string} activityMessage Message to use for activity.
+ * @return {number} Activity id.
+ */
+function startActivity(activityMessage) {
+  var activityId = createActivity(activityMessage);
+  var activity = getActivity(activityId);
+
+  var startTime = Date.now();
+  activity.timestamps.push(startTime);
 
   writeActivity(activityEvents.start, activity);
 
@@ -43,15 +90,14 @@ function startActivity(activityMessage) {
 }
 exports.start = startActivity;
 
+/**
+ * End an activity. Log the time, write output, and then delete activity.
+ * @param {number} activityId Activity ID.
+ */
 function endActivity(activityId) {
+  var activity = getActivity(activityId);
+
   var endTime = Date.now();
-
-  var activity = activities[activityId];
-
-  if (activity === undefined) {
-    throw new Error('activity with id "' + activityId + '" not found.');
-  }
-
   activity.timestamps.push(endTime);
 
   writeActivity(activityEvents.end, activity);

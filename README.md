@@ -91,6 +91,18 @@ Type: `number`
 The id of the activity we want to end.
 
 
+### activity.create(activityMessage)
+
+Returns the `activityId` you can later use to end the activity. Does not create any
+timestamp, just registers a new activity.
+
+#### activityMessage
+
+Type: `string`
+
+The message you want outputted.
+
+
 ### activity.disable()
 
 Disable output.
