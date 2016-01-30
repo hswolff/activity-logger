@@ -111,17 +111,29 @@ function createActivity(activityMessage) {
 exports.create = createActivity;
 
 /**
+ * Mark a timestamp in an activity. Adds it to the array of timestamps.
+ * @param {number} activityId Activity ID.
+ * @return {number} The timestamp value added.
+ */
+function markActivity(activityId) {
+  var activity = getActivity(activityId);
+  var timeNow = Date.now();
+  activity.timestamps.push(timeNow);
+  return timeNow;
+}
+exports.mark = markActivity;
+
+/**
  * Create and start a new activity.
  * @param {string} activityMessage Message to use for activity.
  * @return {number} Activity id.
  */
 function startActivity(activityMessage) {
   var activityId = createActivity(activityMessage);
+
+  markActivity(activityId);
+
   var activity = getActivity(activityId);
-
-  var startTime = Date.now();
-  activity.timestamps.push(startTime);
-
   writeActivity(activityEvents.start, activity);
 
   return activityId;
@@ -131,15 +143,17 @@ exports.start = startActivity;
 /**
  * End an activity. Log the time, write output, and then delete activity.
  * @param {number} activityId Activity ID.
+ * @return {Activity} Return the ended activity.
  */
 function endActivity(activityId) {
   var activity = getActivity(activityId);
 
-  var endTime = Date.now();
-  activity.timestamps.push(endTime);
+  markActivity(activityId);
 
   writeActivity(activityEvents.end, activity);
 
   delete activities[activityId];
+
+  return activity;
 }
 exports.end = endActivity;

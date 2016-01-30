@@ -81,7 +81,7 @@ The message you want outputted.
 
 ### activity.end(activityId)
 
-Ends the activity. Logs out to the console the activity ended, showing the time it
+Ends the activity and returns the `Activity` object. Logs out to the console the activity ended, showing the time it
 took to complete.
 
 #### activityId
@@ -101,6 +101,17 @@ timestamp, just registers a new activity.
 Type: `string`
 
 The message you want outputted.
+
+
+### activity.mark(activityId)
+
+Adds a new timestamp to the Activity's array of timestamps.
+
+#### activityId
+
+Type: `number`
+
+The id of the activity.
 
 
 ### activity.disable()

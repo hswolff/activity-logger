@@ -50,6 +50,20 @@ describe('activity', function() {
     });
   });
 
+  describe('mark', function() {
+    it('adds timestamp to activity', function() {
+      var testId = activity.create('Marco, polo.');
+      var testActivity = getActivity(testId);
+
+      assert(testActivity.timestamps.length === 0);
+
+      var timestamp = activity.mark(testId);
+      assert(testActivity.timestamps.length === 1);
+      assert(testActivity.timestamps[0] === timestamp);
+      assert(typeof timestamp === 'number');
+    });
+  });
+
   describe('end', function() {
     it('throws if id doesn\'t exist', function() {
       assert.throws(function() {
@@ -64,6 +78,15 @@ describe('activity', function() {
       assert.throws(function() {
         activity.end(id);
       });
+    });
+
+    it('returns Activity object', function() {
+      var id = activity.start('Message');
+      var existingActivity = getActivity(id);
+
+      var endedActivity = activity.end(id);
+
+      assert(endedActivity === existingActivity);
     });
   });
 
