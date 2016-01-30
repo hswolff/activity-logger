@@ -1,6 +1,6 @@
 {
   "name": "activity-logger",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "description": "track time to complete activities to any output",
   "license": "MIT",
   "repository": "hswolff/activity-logger",
