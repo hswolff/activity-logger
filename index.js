@@ -1,5 +1,10 @@
 'use strict';
 
+var outputHandlers = require('./src/output-handlers');
+exports.getOutputHandlers = outputHandlers.get;
+exports.setOutputHandlers = outputHandlers.set;
+exports.addOutputHandler = outputHandlers.add;
+
 var uuid = 1;
 var activities = Object.create(null);
 
@@ -37,11 +42,13 @@ function writeActivity(template, activity) {
     return;
   }
 
-  if (outputHandlers.length === 0) {
+  var handlers = outputHandlers.get();
+
+  if (handlers.length === 0) {
     throw new Error('No output handlers defined.');
   }
 
-  outputHandlers.forEach(function(handler) {
+  handlers.forEach(function(handler) {
     handler(template(activity));
   });
 }
@@ -136,25 +143,4 @@ exports.setStartFormatter = function setStartFormatter(formatter) {
 
 exports.setEndFormatter = function setEndFormatter(formatter) {
   activityEvents['end'] = formatter;
-};
-
-var outputHandlers = [console.log.bind(console)];
-
-exports.getOutputHandlers = function getOutputHandlers() {
-  return outputHandlers;
-};
-
-exports.setOutputHandlers = function setOutputHandlers() {
-  var handlers = Array.prototype.slice.call(arguments, 0);
-  // If an array is given as first arg make sure resulting outputHandlers
-  // is flat.
-  outputHandlers = handlers.reduce(function(flat, arg) {
-    return flat.concat(arg);
-  }, []);
-  return outputHandlers;
-};
-
-exports.addOutputHandler = function addOutputHandler(handler) {
-  outputHandlers.push(handler);
-  return outputHandlers;
 };
